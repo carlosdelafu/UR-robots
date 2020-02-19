@@ -18,12 +18,11 @@ public:
 	/*server*/
 	int server_init(const string & ip, const int port);
 
-	int server_receive(string & str);
+	int server_receive(unsigned char * rece_data, size_t rece_size);
 
 	int server_close();
 
 	/*client*/
-
 	int client_init(const string & ip, const int port);
 
 	int client_send(string & str);
@@ -46,7 +45,7 @@ private:
 
 	int m_server_port;
 
-	char m_server_buf[255];
+	char * m_server_buf;
 
 	/*client paraments*/
 	SOCKET m_client_socket;

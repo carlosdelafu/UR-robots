@@ -28,6 +28,8 @@ int SocketComm::server_init(const string & ip, const int port)
 	server_addr = { 0 };
 	server_addr.sin_family = AF_INET;
 	//server_addr.sin_addr.S_un.S_addr = inet_addr(m_server_ip.c_str());
+	// Ready to listen any connection
+	//InetPton(AF_INET, INADDR_ANY, &server_addr.sin_addr.S_un.S_addr);
 	InetPton(AF_INET, m_server_ip.c_str(), &server_addr.sin_addr.S_un.S_addr);
 	server_addr.sin_port = htons(m_server_port);
 
@@ -57,20 +59,23 @@ int SocketComm::server_init(const string & ip, const int port)
 	return 0;
 }
 
-int SocketComm::server_receive(string & str)
+int SocketComm::server_receive(unsigned char * rece_data, size_t rece_size)
 {
-	//while (true)
-	//{
-		memset(m_server_buf, 0, 256);
-		int rs = recv(m_server_client_socket, m_server_buf, 255, NULL);
+	m_server_buf = new char[rece_size + 1]();
 
-		if (rs > 0)
-		{
-			//printf("来自%s的数据：%s\n", inet_ntoa(server_client_addr.sin_addr), m_server_buf);
-			str = string(m_server_buf);
-		}
-		return rs;
-	//}
+	int rs = recv(m_client_socket, m_server_buf, rece_size, NULL);
+
+	if (rs > 0)
+	{
+		printf("received %d bytes data successfully.\n>>%s\n", rs, m_server_buf);
+	}
+
+	memcpy(rece_data, m_server_buf, rece_size);
+
+	delete[] m_server_buf;
+	m_server_buf = nullptr;
+
+	return rs;
 }
 
 int SocketComm::server_close()

@@ -105,7 +105,9 @@ int main()
 	//opr_data = nullptr;
 
 	REALTIME_PRE realtime_pre;
-	int state = realtime_pre.init_socket_connection("192.168.0.2", 30002);
+
+	int state = realtime_pre.init_socket_connection("127.0.0.1", "127.0.0.1", 8081);
+
 	if (URFAILED == state)
 	{
 		return 1;

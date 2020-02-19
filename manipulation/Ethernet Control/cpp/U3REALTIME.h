@@ -17,8 +17,13 @@ public:
 
 	virtual ~U3REALTIME();
 
-	// initialize the socket of connenct
-	int init_socket_connection(const string & _ip, const int _port);
+	//! initialize the socket of connenct
+	/*
+	\param[in] _ur_ip The UR's ip address
+	\param[in] _remote_ip remote host's ip address, you can input "127.0.0.1" if the remote host is this device.
+	\param[in] _port the port socket will listen to.
+	*/
+	int init_socket_connection(const string & _ur_ip, const string & _remote_ip, const int _port);
 
 	// cause there are more kind of realtime table, you need to design the read and alaysis data by different way.
 	virtual void read_data_from_robot(double millisecond = 1000) = 0;
