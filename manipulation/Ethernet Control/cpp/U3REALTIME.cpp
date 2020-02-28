@@ -9,31 +9,26 @@ U3REALTIME::U3REALTIME()
 
 U3REALTIME::~U3REALTIME()
 {
+	m_socketmm.client_close();
+
+	m_socketmm.server_close();
 }
 
-int U3REALTIME::init_socket_connection(const string & _ur_ip, const string & _remote_ip, const int _port)
+int U3REALTIME::init_socket_connection(const string & _ur_ip, const int _ur_port)
 {
-	if (!m_socketmm.client_init(_ur_ip, _port))
+	int URRES = URSUCCED;
+
+	if (!m_socketmm.client_init(_ur_ip, _ur_port))
 	{
 		cerr << "[client] client_init done" << endl;
-		return URSUCCED;
 	}
 	else
 	{
 		cerr << "[client] client_init failed" << endl;
-		return URFAILED;
+		URRES = URFAILED;
 	}
 
-	if (!m_socketmm.server_init(_remote_ip, _port))
-	{
-		cerr << "[server] server_init done" << endl;
-		return URSUCCED;
-	}
-	else
-	{
-		cerr << "[server] server_init failed" << endl;
-		return URFAILED;
-	}
+	return URRES;
 }
 
 

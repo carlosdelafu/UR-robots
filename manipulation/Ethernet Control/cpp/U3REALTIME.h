@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <thread>
+#include <fstream>
 
 #include "SocketComm.h"
 using namespace std;
@@ -23,10 +25,12 @@ public:
 	\param[in] _remote_ip remote host's ip address, you can input "127.0.0.1" if the remote host is this device.
 	\param[in] _port the port socket will listen to.
 	*/
-	int init_socket_connection(const string & _ur_ip, const string & _remote_ip, const int _port);
+	int init_socket_connection(const string & _ur_ip, const int _ur_port);
 
 	// cause there are more kind of realtime table, you need to design the read and alaysis data by different way.
-	virtual void read_data_from_robot(double millisecond = 1000) = 0;
+	virtual void begin_to_receive_data_from_UR(float millisecond = 1000) = 0;
+
+	virtual void send_data_move_to(float x, float y, float z, float rx, float ry, float rz, float acceleration = 0.5, float velocity = 0.1) = 0;
 
 protected:
 	// convert bytes to int, which is 32 bits

@@ -59,21 +59,18 @@ int SocketComm::server_init(const string & ip, const int port)
 	return 0;
 }
 
-int SocketComm::server_receive(unsigned char * rece_data, size_t rece_size)
+int SocketComm::server_receive(unsigned char ** rece_data, int rece_size)
 {
-	m_server_buf = new char[rece_size + 1]();
+	*rece_data = new unsigned char[rece_size + 1]();
 
-	int rs = recv(m_client_socket, m_server_buf, rece_size, NULL);
+	int rs = recv(m_client_socket, (char *)*rece_data, rece_size, NULL);
 
 	if (rs > 0)
 	{
 		printf("received %d bytes data successfully.\n>>%s\n", rs, m_server_buf);
 	}
 
-	memcpy(rece_data, m_server_buf, rece_size);
-
-	delete[] m_server_buf;
-	m_server_buf = nullptr;
+	delete[] rece_data;
 
 	return rs;
 }
@@ -139,11 +136,11 @@ int SocketComm::client_send(string & str)
 
 	memcpy(m_client_buf, str.data(), str.size());
 
-	int rs = send(m_client_socket, m_client_buf, strlen(m_client_buf), NULL);
+	int rs = send(m_client_socket, m_client_buf, (int)str.length(), NULL);
 
 	if (rs > 0)
 	{
-		printf("sent %d bytes data successfully.>>%s\n", rs, m_client_buf);
+		//printf("sent %d bytes data successfully.\n>>%s", rs, m_client_buf);
 	}
 
 	delete[] m_client_buf;
@@ -152,21 +149,16 @@ int SocketComm::client_send(string & str)
 	return rs;
 }
 
-int SocketComm::client_receive(unsigned char * rece_data,size_t rece_size)
+int SocketComm::client_receive(unsigned char ** rece_data,int rece_size)
 {
-	m_client_buf = new char[rece_size + 1]();
-
-	int rs = recv(m_client_socket, m_client_buf, rece_size, NULL);
+	int rs = recv(m_client_socket, (char*)*rece_data, rece_size, NULL);
 
 	if (rs > 0)
 	{
-		printf("received %d bytes data successfully.\n>>%s\n", rs, m_client_buf);
+		//printf("received %d bytes data successfully.\n>>%s\n", rs, m_client_buf);
 	}
-
-	memcpy(rece_data, m_client_buf, rece_size);
-
-	delete[] m_client_buf;
-	m_client_buf = nullptr;
+	
+	(*rece_data)[rece_size] = '\0';
 
 	return rs;
 }

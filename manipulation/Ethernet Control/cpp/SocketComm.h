@@ -18,7 +18,7 @@ public:
 	/*server*/
 	int server_init(const string & ip, const int port);
 
-	int server_receive(unsigned char * rece_data, size_t rece_size);
+	int server_receive(unsigned char ** rece_data, int rece_size);
 
 	int server_close();
 
@@ -27,7 +27,7 @@ public:
 
 	int client_send(string & str);
 
-	int client_receive(unsigned char * rece_data, size_t rece_size);
+	int client_receive(unsigned char ** rece_data, int rece_size);
 
 	int client_close();
 
