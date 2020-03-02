@@ -3,43 +3,114 @@
 
 To connect to the UR robot and retrieve data by the socket.
 
-All the data formatted by RealTime-Pre 3.0 right now because the robot I operated is an old one.
+All the data formatted by `Primary and Secondary Client interface` right now.
 
 ## Details
 
-- platform: Windows 10
-- dependencies: None
-- compiler: MSVC 2017 x64
+- Platform: Windows 10
+- Dependencies: None
+- Compiler: MSVC 2017 x64
 
-## Bugs
-it cannot read in real-time. Specifically, the data from the UR robots is always the same one that first got.
+## Features
+- Receive information from the UR in the background.
+- Receive the position of TCP based on the base-reference in real-time.
+- Let the UR's TCP move to a specific position.
+- Block until arrived.
 
-## Example (data at first time)
+## Example
 
-``` 
-received 4 bytes data successfully.
->>
-data size=812
-received 808 bytes data successfully.
->>@梹 臎ャ?鸷Z鷒PA?')髍??漌傀訟餑玒?鄡/梺?繍n坻
-1504.03
-1.0455 -3.01912 1.7993 -1.92682 0.516014 -0.0157411
-0 0 0 0 0 0
-0 0 0 0 0 0
-2.53846e-17 2.51047 -0.420212 0.0179899 -0.000153302 0
-3.24469e-16 32.2933 -5.39032 0.178921 -0.00152608 0
-1.0455 -3.0191 1.79928 -1.92684 0.516016 -0.0157542
-0 0 0 0 0 0
--0.141234 2.34493 -1.05589 0.0838773 0.218081 -0.247057
-9.97947 0.497475 0.860093
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
--26.8163 -4.86466 -16.7654 2.40645 7.18445 -1.81036
-0.32087 0.193182 0.603869 -1.22156 1.20834 -1.22965
-0 0 0 0 0 0
-0
-30.1 29 28.5 31.2 34.3 35.2
-0.025572
-8
-0
-253 253 253 253 253 253
+Control the UR robot in a game controller way: you could use those command to control the robot as following:
+
+- 'w/s': move along the x-axis.
+- 'a/d': move along the y-axis.
+- 'q/e': move along the z-axis.
+
+``` C++
+#include "URobot.h"
+#include <conio.h>
+
+int main()
+{
+	URobot ur_robot;
+
+    // replace it with your UR robot's ip and port
+	int state = ur_robot.init_socket_connection("192.168.0.2", 30002);
+
+	if (URFAILED == state)
+	{
+		return 1;
+	}
+
+    // start to connect to the ur robot
+	ur_robot.begin_to_receive_data_from_UR();
+
+    // get current position
+	double x = 0, y = 0, z = 0, rx = 0, ry = 0, rz = 0;
+    // you could use this function to get position any time you want
+	ur_robot.get_base_tools_position(x, y, z, rx, ry, rz);
+
+	cout << "[beginning position]" << x << " " << y << " " << z << " " << rx << " " << ry << " " << rz << endl;
+
+	char c;
+
+	while (true)
+	{
+		// without enter key
+		c = getch();
+		
+		if (c == 'a')
+		{
+			ur_robot.send_data_move_y(0.05, 0.5, 0.5);
+		}
+		else if (c == 'w')
+		{
+			ur_robot.send_data_move_x(0.05, 0.5, 0.5);
+		}
+		else if (c == 's')
+		{
+			ur_robot.send_data_move_x(-0.05, 0.5, 0.5);
+		}
+		else if (c == 'd')
+		{
+			ur_robot.send_data_move_y(-0.05, 0.5, 0.5);
+		}
+		else if (c == 'q')
+		{
+			ur_robot.send_data_move_z(0.05, 0.5, 0.5);
+		}
+		else if (c == 'e')
+		{
+			ur_robot.send_data_move_z(-0.05, 0.5, 0.5);
+		}
+		else if (c == 'q')
+		{
+			return 0;
+		}
+
+		ur_robot.get_base_tools_position(x, y, z, rx, ry, rz);
+
+		cout << "[new position]" << x << " " << y << " " << z << " " << rx << " " << ry << " " << rz << endl;
+	}
+	
+	return 0;
+}
+```
+
+## Below is the output of running:
+
+```
+[client] client_init done
+[begining position]0.361781 -0.0439009 0.321387 -3.0657 -0.528965 -0.131213
+spend 1035ms to arrive the specific position
+[new position]0.312403 -0.0438854 0.321508 -3.06564 -0.528752 -0.131794
+spend 1009ms to arrive the specific position
+[new position]0.360901 -0.0438964 0.321499 -3.06581 -0.528742 -0.131562
+spend 983ms to arrive the specific position
+[new position]0.411174 -0.0438618 0.32145 -3.06576 -0.528844 -0.131549
+spend 979ms to arrive the specific position
+[new position]0.411715 -0.0936432 0.321319 -3.06607 -0.52862 -0.130884
+spend 917ms to arrive the specific position
+[new position]0.411688 -0.142868 0.321321 -3.06606 -0.528819 -0.130857
+spend 909ms to arrive the specific position
+[new position]0.411702 -0.193138 0.321309 -3.06609 -0.528875 -0.130812
 ```

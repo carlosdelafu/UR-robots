@@ -5,7 +5,7 @@
 #include <fstream>
 
 #include "SocketComm.h"
-using namespace std;
+//using namespace std;
 
 #define URSUCCED 0
 #define URFAILED 1
@@ -28,22 +28,26 @@ public:
 	int init_socket_connection(const string & _ur_ip, const int _ur_port);
 
 	// cause there are more kind of realtime table, you need to design the read and alaysis data by different way.
-	virtual void begin_to_receive_data_from_UR(float millisecond = 1000) = 0;
+	virtual void begin_to_receive_data_from_UR(unsigned int milliseconds = 30) = 0;
 
-	virtual void send_data_move_to(float x, float y, float z, float rx, float ry, float rz, float acceleration = 0.5, float velocity = 0.1) = 0;
+	virtual void send_data_move_to(double x, double y, double z, double rx, double ry, double rz, double acceleration = 0.5, double velocity = 0.1) = 0;
 
 protected:
 	// convert bytes to int, which is 32 bits
 	int bytes_to_int(unsigned char* b, unsigned int length);
 
+	unsigned int bytes_to_uint(unsigned char* b, unsigned int length);
+
+	uint64_t bytes_to_uint_64(unsigned char* b, unsigned int length);
+
 	// default convert bytes to double, which is 64 bits!!
 	double bytes_to_double(unsigned char* b, unsigned int length = 8);
 
 	// get the specific data in _data, and store the result in _result
-	void get_specific_data(unsigned char * _data, size_t _count, vector<double> & _result);
+	void get_specific_data(unsigned char * _data, size_t _count, std::vector<double> & _result);
 
-	// only print the vector of double
-	void print(vector<double> & _vec);
+	// only print the std::vector of double
+	void print(std::vector<double> & _vec);
 
 	// delete the pointer safely
 	void saft_delete_pointer(unsigned char ** p);

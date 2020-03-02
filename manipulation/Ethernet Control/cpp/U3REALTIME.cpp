@@ -33,6 +33,35 @@ int U3REALTIME::init_socket_connection(const string & _ur_ip, const int _ur_port
 
 
 // convert bytes to int, which is 32 bits
+unsigned int U3REALTIME::bytes_to_uint(unsigned char* b, unsigned int length)
+{
+	unsigned int val = 0;
+
+	for (size_t i = 0; i < length; ++i)
+	{
+		val = val << 8;
+
+		val = val | b[i];
+	}
+
+	return val;
+}
+
+uint64_t U3REALTIME::bytes_to_uint_64(unsigned char* b, unsigned int length)
+{
+	uint64_t val = 0;
+
+	for (size_t i = 0; i < length; ++i)
+	{
+		val = val << 8;
+
+		val = val | b[i];
+	}
+
+	return val;
+}
+
+// convert bytes to char, which is 32 bits
 int U3REALTIME::bytes_to_int(unsigned char* b, unsigned int length)
 {
 	unsigned int val = 0;
@@ -40,10 +69,11 @@ int U3REALTIME::bytes_to_int(unsigned char* b, unsigned int length)
 	for (size_t i = 0; i < length; ++i)
 	{
 		val = val << 8;
+
 		val = val | b[i];
 	}
 
-	return val;
+	return *(int*)&val;
 }
 
 // default convert bytes to double, which is 64 bits!!
@@ -63,7 +93,7 @@ double U3REALTIME::bytes_to_double(unsigned char* b, unsigned int length)
 }
 
 // get the specific data in _data, and store the result in _result
-void U3REALTIME::get_specific_data(unsigned char * _data, size_t _count, vector<double> & _result)
+void U3REALTIME::get_specific_data(unsigned char * _data, size_t _count, std::vector<double> & _result)
 {
 	_result.resize(_count,0);
 
@@ -78,7 +108,7 @@ void U3REALTIME::get_specific_data(unsigned char * _data, size_t _count, vector<
 }
 
 // only print the vector of double
-void U3REALTIME::print(vector<double> & _vec)
+void U3REALTIME::print(std::vector<double> & _vec)
 {
 	for (auto i : _vec)
 	{

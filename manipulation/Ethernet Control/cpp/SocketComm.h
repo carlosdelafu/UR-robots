@@ -1,9 +1,15 @@
 #pragma once
+#include <chrono>
+#include <mutex>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
 #include <iostream>
 #include <string>
-using namespace std;
+
+using std::cout;
+using std::cerr;
+using std::endl;
+using std::string;
 
 #pragma  comment(lib,"ws2_32.lib")
 
