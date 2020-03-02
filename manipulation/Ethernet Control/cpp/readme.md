@@ -100,17 +100,19 @@ int main()
 
 ```
 [client] client_init done
-[begining position]0.361781 -0.0439009 0.321387 -3.0657 -0.528965 -0.131213
-spend 1035ms to arrive the specific position
-[new position]0.312403 -0.0438854 0.321508 -3.06564 -0.528752 -0.131794
-spend 1009ms to arrive the specific position
-[new position]0.360901 -0.0438964 0.321499 -3.06581 -0.528742 -0.131562
-spend 983ms to arrive the specific position
-[new position]0.411174 -0.0438618 0.32145 -3.06576 -0.528844 -0.131549
-spend 979ms to arrive the specific position
-[new position]0.411715 -0.0936432 0.321319 -3.06607 -0.52862 -0.130884
-spend 917ms to arrive the specific position
-[new position]0.411688 -0.142868 0.321321 -3.06606 -0.528819 -0.130857
-spend 909ms to arrive the specific position
-[new position]0.411702 -0.193138 0.321309 -3.06609 -0.528875 -0.130812
+[beginning position]0.411645 -0.193868 0.321272 -3.06594 -0.52859 -0.130771
+took 946ms to arrive the given position
+[new position]0.41162 -0.2439 0.321212 -3.06608 -0.528714 -0.130561
+took 886ms to arrive the given position
+[new position]0.411658 -0.194263 0.321249 -3.06569 -0.528944 -0.130654
+took 901ms to arrive the given position
+[new position]0.362342 -0.193859 0.32125 -3.06584 -0.52847 -0.130407
+took 983ms to arrive the given position
+[new position]0.411647 -0.193913 0.321214 -3.06592 -0.528547 -0.130359
+took 883ms to arrive the given position
+[new position]0.411701 -0.243337 0.321154 -3.06606 -0.529015 -0.130311
+took 992ms to arrive the given position
+[new position]0.411704 -0.243879 0.370895 -3.06605 -0.528587 -0.130901
+took 959ms to arrive the given position
+[new position]0.411736 -0.24389 0.321889 -3.06584 -0.528577 -0.130191
 ```

@@ -163,7 +163,7 @@ void URobot::wait_to_arrive_specific_position(double x, double y, double z, doub
 
 		}
 	}
-	cout << "spend " << (float)(clock() - b_t) << "ms to arrive the specific position" << endl;
+	cout << "took " << (float)(clock() - b_t) << "ms to arrive the given position" << endl;
 }
 
 void URobot::received_data_as_uchar(int data_size, unsigned char & res)
