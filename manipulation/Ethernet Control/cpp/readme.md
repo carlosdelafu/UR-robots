@@ -31,25 +31,26 @@ Control the UR robot in a game controller way: you could use those command to co
 
 int main()
 {
-	URobot ur_robot;
+    URobot ur_robot;
 
     // replace it with your UR robot's ip and port
-	int state = ur_robot.init_socket_connection("192.168.0.2", 30002);
+    int state = ur_robot.init_socket_connection("192.168.0.2", 30002);
 
-	if (URFAILED == state)
-	{
-		return 1;
-	}
+    if (URFAILED == state)
+    {
+        return 1;
+    }
 
-    // start to connect to the ur robot
-	ur_robot.begin_to_receive_data_from_UR();
+    // start to connect to the ur robot, it will return after connection finished
+    ur_robot.begin_to_receive_data_from_UR();
+
+    double x = 0, y = 0, z = 0, rx = 0, ry = 0, rz = 0;
 
     // get current position
-	double x = 0, y = 0, z = 0, rx = 0, ry = 0, rz = 0;
     // you could use this function to get position any time you want
-	ur_robot.get_base_tools_position(x, y, z, rx, ry, rz);
+    ur_robot.get_base_tools_position(x, y, z, rx, ry, rz);
 
-	cout << "[beginning position]" << x << " " << y << " " << z << " " << rx << " " << ry << " " << rz << endl;
+    cout << "[beginning position]" << x << " " << y << " " << z << " " << rx << " " << ry << " " << rz << endl;
 
 	char c;
 
@@ -60,43 +61,42 @@ int main()
 		
 		if (c == 'a')
 		{
-			ur_robot.send_data_move_y(0.05, 0.5, 0.5);
-		}
-		else if (c == 'w')
-		{
-			ur_robot.send_data_move_x(0.05, 0.5, 0.5);
-		}
-		else if (c == 's')
-		{
-			ur_robot.send_data_move_x(-0.05, 0.5, 0.5);
-		}
-		else if (c == 'd')
-		{
-			ur_robot.send_data_move_y(-0.05, 0.5, 0.5);
-		}
-		else if (c == 'q')
-		{
-			ur_robot.send_data_move_z(0.05, 0.5, 0.5);
-		}
-		else if (c == 'e')
-		{
-			ur_robot.send_data_move_z(-0.05, 0.5, 0.5);
-		}
-		else if (c == 'q')
-		{
-			return 0;
-		}
+            ur_robot.send_data_move_y(0.05);
+        }
+        else if (c == 'w')
+        {
+            ur_robot.send_data_move_x(0.05);
+        }
+        else if (c == 's')
+        {
+            ur_robot.send_data_move_x(-0.05);
+        }
+        else if (c == 'd')
+        {
+            ur_robot.send_data_move_y(-0.05);
+        }
+        else if (c == 'q')
+        {
+            ur_robot.send_data_move_z(0.05);
+        }
+        else if (c == 'e')
+        {
+            ur_robot.send_data_move_z(-0.05);
+        }
+        else if (c == 'q')
+        {
+            return 0;
+        }
 
-		ur_robot.get_base_tools_position(x, y, z, rx, ry, rz);
+        ur_robot.get_base_tools_position(x, y, z, rx, ry, rz);
 
-		cout << "[new position]" << x << " " << y << " " << z << " " << rx << " " << ry << " " << rz << endl;
-	}
-	
-	return 0;
+        cout << "[new position]" << x << " " << y << " " << z << " " << rx << " " << ry << " " << rz << endl;
+    }
+    return 0;
 }
 ```
 
-## Below is the output of running:
+## Below is the output when running:
 
 ```
 [client] client_init done
