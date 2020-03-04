@@ -53,6 +53,8 @@ void URobot::send_data_move_to(double x, double y, double z, double rx, double r
 #ifdef _MSC_VER 
 
 	sprintf_s(command, "movej(p[%f,%f,%f,%f,%f,%f], a=%f, v=%f)\n", x, y, z, rx, ry, rz, acceleration, velocity);
+	
+	//sprintf_s(command, "servoc(p[%f,%f,%f,%f,%f,%f], a=%f, v=%f)\n", x, y, z, rx, ry, rz, acceleration, velocity);
 
 #else
 	sprintf(command, "movej(p[%f,%f,%f,%f,%f,%f], a=%f, v=%f)\n", x , y, z, rx, ry, rz, acceleration, velocity);
@@ -246,7 +248,12 @@ void URobot::receive_data(unsigned int millisecond)
 
 		if (rest_data_size > 0)
 		{
-			//cout << "total_message_size=" << total_message_size << " header message_type=" << (int)message_type << endl;
+
+#ifdef ROBOT_DEBUG
+			cout << "total_message_size=" << total_message_size << " header message_type=" << (int)message_type << endl;
+#endif // ROBOT_DEBUG
+			
+			cout << "total_message_size=" << total_message_size << " header message_type=" << (int)message_type << endl;
 			
 			unsigned char * receive_buf_p = m_receive_buf;
 
@@ -330,7 +337,11 @@ void URobot::process_data(std::vector<int>& bits)
 
 		m_bit_operation.bits_to_number<unsigned char>(bits, i + 32, 8, sub_package_type);
 
-		//cout << "sub_package_size=" << sub_package_size << " sub_package_type=" << (int)sub_package_type << endl;
+#ifdef ROBOT_DEBUG
+
+		cout << "sub_package_size=" << sub_package_size << " sub_package_type=" << (int)sub_package_type << endl;
+
+#endif // ROBOT_DEBUG
 
 		if (sub_package_type == 0)
 		{

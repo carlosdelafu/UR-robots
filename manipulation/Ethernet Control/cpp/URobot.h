@@ -2,6 +2,8 @@
 #include "U3REALTIME.h"
 #include "BitOperation.h"
 
+//#define ROBOT_DEBUG
+
 class URobot :
 	public U3REALTIME
 {
@@ -59,7 +61,6 @@ private:
 
 	//Cartesian info (Sub Package of Robot State Message)
 	void process_type_4(unsigned char * data);
-
 
 private:
 
